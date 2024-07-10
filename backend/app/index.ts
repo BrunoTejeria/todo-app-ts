@@ -1,6 +1,7 @@
 import express, { Router } from "express";
 import dotenv from "dotenv";
 import fs from "fs";
+import cors from "cors";
 
 // middlewares and routers imports
 import logRequest from "./middlewares/logRequest";
@@ -16,9 +17,10 @@ const PORT = process.env.PORT || 5064;
 
 const app = express();
 
-
 // middlewares
+app.use(cors());
 app.use(logRequest);
+
 
 // routers
 app.use("/tasks", TasksRouter);

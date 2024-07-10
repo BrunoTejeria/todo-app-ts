@@ -1,5 +1,7 @@
 import { sql } from "@vercel/postgres";
+
 import { Tasks } from "../lib/models";
+import generateUUIDv4 from "../utils/uuid";
 
 
 class TasksService {
@@ -37,7 +39,7 @@ class TasksService {
 
   static async createTask(text: string): Promise<Tasks | null> {
     try {
-      const result = await sql<Tasks>`INSERT INTO tasks (id, text, status, createdAt) VALUES ('agsasg', ${text}, 'pending', NOW()) RETURNING *`;
+      const result = await sql<Tasks>`INSERT INTO tasks (id, text, status, createdAt) VALUES (${generateUUIDv4()}, ${text}, 'pending', NOW()) RETURNING *`;
       return result.rows[0];
     }
     catch (e) {
