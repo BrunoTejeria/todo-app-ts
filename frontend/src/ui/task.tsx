@@ -57,7 +57,6 @@ export default function Task({
 			class: evalTaskState(newCheckedB),
 			checkedB: newCheckedB,
 		}));
-		console.log(state);
 	};
 
 	const taskText = () => {

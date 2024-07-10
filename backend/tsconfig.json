@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",  // Utiliza CommonJS en lugar de ESNext para evitar problemas con ts-node-dev
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "rootDir": "./app",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["app"],
+  "exclude": ["node_modules"]
+}
