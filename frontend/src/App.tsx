@@ -1,35 +1,13 @@
-import {useState, useEffect} from "react";
 import "./globals.css";
 
-import Task from "./ui/task";
-import addTask from "./ui/addTask";
-import dataFetcher from "./lib/data";
+import TasksTable from "./ui/tasksTable";
 
-await dataFetcher.getAllTasks();
-
-export default function App(): JSX.Element {
-	const [tasks, setTasks] = useState<any[]>(["<>No hay tareas</>"]);
-
-	useEffect(() => {
-		dataFetcher.getAllTasks().then((fetchedTasks) => {
-			if (fetchedTasks) {
-				setTasks(fetchedTasks);
-			}
-		});
-	}, []);
-
+function App(): JSX.Element {
 	return (
 		<>
-			<div>
-				{tasks &&
-					tasks.map((task) => (
-						<Task
-							key={task.id}
-							id={task.id}
-							text={task.text}
-						/>
-					))}
-			</div>
+			<TasksTable />
 		</>
 	);
 }
+
+export default App;

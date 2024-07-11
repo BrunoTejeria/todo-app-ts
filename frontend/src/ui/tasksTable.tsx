@@ -1,16 +1,17 @@
 import {useState, useEffect} from "react";
-import "./globals.css";
-import {fetchAll, deleteTask} from "../lib/data";
+
 import Task from "./task";
 import addTask from "./addTask";
+import NoTasks from "./noTasks";
+import dataFetcher from "../lib/data";
 
-export default function App(): JSX.Element {
-	const noTasksMessage = () => "<h2>No hay tareas</h2>";
+await dataFetcher.getAllTasks();
 
-	const [tasks, setTasks] = useState<any[]>([noTasksMessage]);
+function TasksTable(): JSX.Element {
+	const [tasks, setTasks] = useState<any[]>(["<>No hay tareas</>"]);
 
 	useEffect(() => {
-		fetchAll().then((fetchedTasks) => {
+		dataFetcher.getAllTasks().then((fetchedTasks) => {
 			if (fetchedTasks) {
 				setTasks(fetchedTasks);
 			}
@@ -20,28 +21,20 @@ export default function App(): JSX.Element {
 	return (
 		<>
 			<div>
-				<h1 className="text-3xl font-bold text-center">
-					Tasks{" "}
-					<img
-						src="./assets/etc/type-script.svg"
-						alt="type script logo"
-					/>
-				</h1>
-				<div className="flex justify-center">
-					<addTask />
-				</div>
-			</div>
-
-			<div>
-				{tasks &&
+				{tasks.length > 1 ? (
 					tasks.map((task) => (
 						<Task
 							key={task.id}
 							id={task.id}
 							text={task.text}
 						/>
-					))}
+					))
+				) : (
+					<NoTasks />
+				)}
 			</div>
 		</>
 	);
 }
+
+export default TasksTable;

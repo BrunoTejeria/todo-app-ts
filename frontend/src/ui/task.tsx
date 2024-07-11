@@ -51,6 +51,7 @@ export default function Task({
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const newCheckedB = event.target.checked;
+		dataFetcher.updateState(id, newCheckedB ? "pending" : "done");
 		setState((prevState) => ({
 			...prevState,
 			class: evalTaskState(newCheckedB),
