@@ -5,7 +5,9 @@
   "scripts": {
     "build": "tsc",
     "dev": "ts-node-dev --respawn --transpile-only app/index.ts",
-    "lint": "eslint . /app/**/*.ts"
+    "lint": "eslint . /app/**/*.ts",
+    "seed": "node scripts/seed.js",
+    "create-db": "node scripts/create.db.js"
   },
   "dependencies": {
     "@types/express": "^4.17.21",

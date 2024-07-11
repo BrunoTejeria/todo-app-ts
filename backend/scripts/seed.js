@@ -1,5 +1,5 @@
-import { sql } from "@vercel/postgres";
-import dotenv from "dotenv";
+const { sql } = require('@vercel/postgres');
+const dotenv = require('dotenv');
 
 dotenv.config({ path: './.env.local' });
 
@@ -11,8 +11,7 @@ async function tableExists(tableName) {
           WHERE table_schema = 'public' AND table_name = ${tableName}
           LIMIT 1;
       `;
-
-    if (result.count > 0) {
+    if (result.rowCount > 0) {
       return true;
     }
     return null;
@@ -22,9 +21,9 @@ async function tableExists(tableName) {
   }
 }
 
-async function createDB() {
+async function createTable() {
   try {
-    console.log("creating database...")
+    console.log("creating table...")
     await sql`CREATE TABLE tasks (
         id CHAR(36) PRIMARY KEY,
         text TEXT NOT NULL,
@@ -34,7 +33,7 @@ async function createDB() {
   `
   }
   catch (e) {
-    console.log("can't create database.")
+    console.log("can't create table.")
     console.error(e)
     process.exit(1);
   }
@@ -50,9 +49,10 @@ const seed = async () => {
 
 async function main() {
   try {
+    console.log(await tableExists('tasks'))
     if (!await tableExists('tasks')) {
       console.log("Table 'tasks' does not exist. Creating table...");
-      await createDB();
+      await createTable();
     }
     console.log("seeding database...")
     await seed()
