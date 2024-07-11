@@ -7,7 +7,7 @@ import generateUUIDv4 from "../utils/uuid";
 class TasksService {
   static async getAll(): Promise<Tasks[] | null> {
     try {
-      const result = await sql<Tasks>`SELECT * FROM tasks`;
+      const result = await sql<Tasks>`SELECT * FROM tasks ORDER BY status DESC, createdat DESC`;
       return result.rows;
     }
     catch (e) {
