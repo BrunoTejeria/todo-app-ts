@@ -1,70 +1,43 @@
-import { sql } from "@vercel/postgres";
-import { Tasks } from "./models";
+import { Header, Status, Task, TaskOnePropResponse, TaskResponse, TasksResponse } from "./types"
 
-export async function fetchAll() {
-	try {
+class Data {
+	url: string;
+	tasksUrl: string;
+	headers: Header = { "Content-Type": "application/json" };
 
-		const result = await sql<Tasks>`SELECT * FROM tasks`;
-		return result.rows;
+	constructor(backendUrl?: string) {
+		this.url = backendUrl || "http://127.0.0.1:5064";
+		this.tasksUrl = `${backendUrl}/tasks`;
 	}
-	catch (e) {
-		console.error(e);
-		return null;
+
+	public async getAllTasks(): Promise<Task[]> {
+		const response = await fetch(`${this.tasksUrl}`, {
+			method: "GET",
+			headers: {...this.headers }
+		});
+		const tasks: TasksResponse = await response.json();
+		return tasks.content;
 	}
-}
 
-export async function fetchState(id: string) {
-	try {
-		return await sql<Tasks>`SELECT status  FROM tasks WHERE id = ${id}`;
+	public async getState(id: string): Promise<string | Number | boolean | null> {
+		const response = await fetch(`${this.tasksUrl}/${id}/state`, {
+      method: "GET",
+      headers: {...this.headers }
+    });
+    const task: TaskOnePropResponse = await response.json();
+		return task.content;
 	}
-	catch (e) {console.error(e);
-		return null;
-	}
-}
 
-export default async function fetchText(id: string) {
-	try {
-		return await sql<Tasks>`SELECT text FROM tasks WHERE id = ${id}`;
-	}
-	catch {
-		return null;
-	}
-}
-
-
-export async function createTask(text: string): Promise<Tasks | null> {
-	try {
-    const result = await sql<Tasks>`INSERT INTO tasks (id, text, status, createdAt) VALUES ('yab2e84e-93b7-4f5e-8e1d-5c8e7b8f6c0a', ${text}, 'pending', NOW()) RETURNING *`;
-		console.log(result);
-		return result.rows[0];
-  }
-  catch (e) {
-    console.log(e);
-    return null;
-  }
-}
-
-console.log(await createTask("task new"))
-
-export async function updateTask(id: string, status: "pending" | "done") {
-	try {
-    const result = await sql<Tasks>`UPDATE tasks SET status = ${status} WHERE id = ${id} RETURNING *`;
-    return result.rows[0];
-  }
-  catch (e) {
-    console.error(e);
-    return null;
-  }
-}
-
-export async function deleteTask(id: string) {
-	try {
-		const result = await sql<Tasks>`DELETE FROM tasks WHERE id = ${id} RETURNING *`;
-		return result.rows[0];
-	}
-	catch (e) {
-		console.error(e);
-		return null;
+	public async updateState(id: string, state: Status): Promise<Task | null> {
+		const response = await fetch(`${this.tasksUrl}/${id}/state?status=${state}`, {
+			method: "PUT",
+      headers: {...this.headers }
+		})
+		const task: TaskResponse = await response.json();
+		return task.content;
 	}
 }
 
+const dataFetcher = new Data(process.env.BACKEND_URL);
+
+export default dataFetcher;

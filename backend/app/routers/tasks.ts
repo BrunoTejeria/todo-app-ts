@@ -46,7 +46,7 @@ class TasksRouter {
       }
       return res.status(200).json({
         message: "Tasks state retrieved successfully",
-        content: state
+        content: state.status
       })
     }
     catch (e) {

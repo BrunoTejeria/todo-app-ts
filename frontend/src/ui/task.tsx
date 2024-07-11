@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import Switch from "@mui/material/Switch";
-import {fetchState} from "../lib/data";
+import dataFetcher from "../lib/data";
 
 export default function Task({
 	id,
@@ -23,10 +23,9 @@ export default function Task({
 		return ""; // <- if the task is done
 	};
 
-	const taskStatus = () => {
-		fetchState(id).then((fetchedState) => {
-			const status = fetchedState?.rows[0].status;
-			console.log(status);
+	const taskStatus = (id: string) => {
+		dataFetcher.getState(id).then((fetchedState) => {
+			const status = fetchedState;
 
 			if (status === "done") {
 				setState((prevState) => ({
@@ -47,7 +46,7 @@ export default function Task({
 	};
 
 	useEffect(() => {
-		taskStatus();
+		taskStatus(id);
 	}, [id]);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
