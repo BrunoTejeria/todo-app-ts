@@ -1,4 +1,4 @@
-import { Header, Status, Task, TaskOnePropResponse, TaskResponse, TasksResponse } from "./types"
+import { Header, Status, TaskType, TaskOnePropResponse, TaskResponse, TasksResponse } from "./types"
 
 class Data {
 	url: string;
@@ -10,7 +10,7 @@ class Data {
 		this.tasksUrl = `${backendUrl}/tasks`;
 	}
 
-	public async getAllTasks(): Promise<Task[]> {
+	public async getAllTasks(): Promise<TaskType[]> {
 		const response = await fetch(`${this.tasksUrl}`, {
 			method: "GET",
 			headers: {...this.headers }
@@ -28,13 +28,22 @@ class Data {
 		return task.content;
 	}
 
-	public async updateState(id: string, state: Status): Promise<Task | null> {
+	public async updateState(id: string, state: Status): Promise<TaskType | null> {
 		const response = await fetch(`${this.tasksUrl}/${id}/state?status=${state}`, {
 			method: "PUT",
       headers: {...this.headers }
 		})
 		const task: TaskResponse = await response.json();
 		return task.content;
+	}
+
+	public async createTask(text: string): Promise<TaskType | null> {
+		const response = await fetch(`${this.tasksUrl}/create?text=${text}`, {
+      method: "POST",
+      headers: {...this.headers }
+    });
+    const task: TaskResponse = await response.json();
+    return task.content;
 	}
 }
 

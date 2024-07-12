@@ -1,16 +1,28 @@
-import {createTask} from "../lib/data";
-import React, {useState} from "react";
+import dataFetcher from "../lib/data";
+import {TaskType} from "../lib/types";
+import {useState} from "react";
 
-const addTask = () => {
+export interface AddTaskProps {
+	onAddTask: (task: Promise<TaskType | null>) => void;
+}
+
+const AddTask: React.FC<AddTaskProps> = ({onAddTask}) => {
 	const [text, setText] = useState("");
 
-	const handleChange = (event) => {}
-		setText(event.target.text);
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setText(event.target.value);
 	};
 
-	const handleSend = (event) => {
+	const handleSend = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		console.log("Valor del input:", text);
+		const newTask = dataFetcher.createTask(text).then((nt) => {
+			return nt;
+		});
+
+		if (newTask) {
+			onAddTask(newTask);
+		}
+		setText("");
 	};
 
 	return (
@@ -22,11 +34,9 @@ const addTask = () => {
 					onChange={handleChange}
 					placeholder="Nueva tarea..."
 				/>
-				<button type="submit">Enviar</button>
 			</form>
-			<p>Valor actual: {text}</p>
 		</div>
 	);
 };
 
-export default {addTask};
+export default AddTask;

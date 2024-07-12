@@ -3,7 +3,7 @@ export type SingleContent = string | number | boolean | null;
 export type Content = {[key: string]: string}
 
 // table model
-export type Task = {
+export type TaskType = {
   id: string;
   text: string;
   status: Status;
@@ -14,12 +14,12 @@ export type Task = {
 
 export interface TaskResponse {
   message: string;
-  content: Task | null;
+  content: TaskType | null;
 }
 
 export interface TasksResponse {
   message: string;
-  content: Task[];
+  content: TaskType[];
 }
 
 export interface TaskOnePropResponse {
@@ -32,4 +32,10 @@ export interface TaskOnePropResponse {
 // headers
 export interface Header {
   [key: string]: string;
+}
+
+
+// Components
+export interface AddTaskProps {
+	onAddTask: ({id, text, status}: {id: string, text: string, status: Status}) => void;
 }

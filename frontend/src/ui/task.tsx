@@ -65,8 +65,8 @@ export default function Task({
 
 	return (
 		<div className="">
-			<div className="flex">
-				<div className="h-16 w-16 bg-gray-200 border-gray-300 border-solid border-2">
+			<div className="flex w-full">
+				<div className="min-h-16 w-2/10 bg-gray-200 border-gray-300 border-solid border-2">
 					{
 						<Switch
 							className="w-full h-full mt-3"
@@ -78,8 +78,8 @@ export default function Task({
 						/>
 					}
 				</div>
-				<div className="p-2 w-10/12 border-gray-300 border-solid border-2 border-l-0">
-					<h1 className={`text-center text-4xl font-bold ${state.class}`}>
+				<div className="p-2 w-full border-gray-300 border-solid border-2 border-l-0">
+					<h1 className={`text-center text-3xl font-bold ${state.class}`}>
 						{taskText()}
 					</h1>
 				</div>
