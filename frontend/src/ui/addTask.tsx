@@ -26,16 +26,20 @@ const AddTask: React.FC<AddTaskProps> = ({onAddTask}) => {
 	};
 
 	return (
-		<div>
-			<form onSubmit={handleSend}>
+		<>
+			<form
+				onSubmit={handleSend}
+				className="size-full flex justify-center items-center h-16"
+			>
 				<input
 					type="text"
 					value={text}
 					onChange={handleChange}
-					placeholder="Nueva tarea..."
+					placeholder="Create New Task"
+					className="size-full text-center text-gray-400 text-2xl bg-gray-100 placeholder:text-2xl "
 				/>
 			</form>
-		</div>
+		</>
 	);
 };
 

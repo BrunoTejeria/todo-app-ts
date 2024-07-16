@@ -11,12 +11,12 @@ function TasksTable(): JSX.Element {
 	const [tasks, setTasks] = useState<any[]>(["<>No hay tareas</>"]);
 
 	const updateComponent = (task: Promise<TaskType | null>) => {
-		dataFetcher.getAllTasks().then((fetchedTasks) => {
-			if (fetchedTasks) {
-				task.then((newTask) => {
-					setTasks([...fetchedTasks, newTask]);
-				});
-			}
+		task.then(() => {
+			dataFetcher.getAllTasks().then((fetchedTasks) => {
+				if (fetchedTasks) {
+					setTasks(fetchedTasks);
+				}
+			});
 		});
 	};
 
@@ -29,13 +29,10 @@ function TasksTable(): JSX.Element {
 	}, []);
 
 	return (
-		<div>
+		<>
 			<div className="w-full md:w-1/2 m-4">
 				<div className="header">
-					<div className="title">
-						<h1>Tasks</h1>
-					</div>
-					<div className="add-task">
+					<div className="add-task flex justify-center border-gray-300 border-solid border-2">
 						<AddTask onAddTask={updateComponent} />
 					</div>
 				</div>
@@ -53,7 +50,7 @@ function TasksTable(): JSX.Element {
 					)}
 				</div>
 			</div>
-		</div>
+		</>
 	);
 }
 
