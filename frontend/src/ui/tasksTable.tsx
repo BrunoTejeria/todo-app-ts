@@ -43,6 +43,7 @@ function TasksTable(): JSX.Element {
 								key={task.id}
 								id={task.id}
 								text={task.text}
+								status={task.status}
 							/>
 						))
 					) : (
