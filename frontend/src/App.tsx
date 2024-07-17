@@ -7,7 +7,7 @@ function App(): JSX.Element {
 		<>
 			<div className="text-center w-full flex justify-center mt-16">
 				<h1 className="flex flex-row  items-center justify-between">
-					<span className="text-8xl font-bold">TODO TS&nbsp;</span>
+					<span className="text-8xl font-bold">TODO&nbsp;</span>
 					<span>
 						<img
 							className=""
