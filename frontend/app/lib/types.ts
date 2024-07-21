@@ -27,8 +27,6 @@ export interface TaskOnePropResponse {
   content: SingleContent;
 }
 
-
-
 // headers
 export interface Header {
   [key: string]: string;
@@ -37,5 +35,5 @@ export interface Header {
 
 // Components
 export interface AddTaskProps {
-	onAddTask: ({id, text, status}: {id: string, text: string, status: Status}) => void;
+	onAddTask: Promise<TaskType | null>;
 }

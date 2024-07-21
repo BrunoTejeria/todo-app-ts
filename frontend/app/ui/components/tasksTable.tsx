@@ -1,43 +1,49 @@
+"use client";
 import {useState, useEffect} from "react";
+
+import dataFetcher from "../../lib/data";
+import {TaskType} from "@/app/lib/types";
 
 import Task from "./task";
 import AddTask from "./addTask";
 import NoTasks from "./noTasks";
 
-import {TaskType} from "../lib/types";
-import dataFetcher from "../lib/data";
-
-function TasksTable(): JSX.Element {
-	const [tasks, setTasks] = useState<any[]>(["<>No hay tareas</>"]);
-
-	const updateComponent = (task: Promise<TaskType | null>) => {
-		task.then(() => {
-			dataFetcher.getAllTasks().then((fetchedTasks) => {
-				if (fetchedTasks) {
-					setTasks(fetchedTasks);
-				}
-			});
-		});
-	};
+const TasksTable = async () => {
+	const [tasks, setTasks] = useState<TaskType[]>([]);
+	console.log(tasks);
 
 	useEffect(() => {
-		dataFetcher.getAllTasks().then((fetchedTasks) => {
-			if (fetchedTasks) {
-				setTasks(fetchedTasks);
+		const fetchTasks = async () => {
+			try {
+				const data = await dataFetcher.getAllTasks();
+				setTasks(data);
+			} catch (error) {
+				console.error("Error fetching tasks:", error);
 			}
-		});
+		};
+
+		fetchTasks();
 	}, []);
+	useEffect(() => {
+		const handleNewTask = () => {
+			console.log(tasks);
+		};
+		handleNewTask();
+	}, [tasks]);
 
 	return (
 		<>
 			<div className="w-full md:w-1/2 m-4">
 				<div className="header">
 					<div className="add-task flex justify-center border-gray-300 border-solid border-2">
-						<AddTask onAddTask={updateComponent} />
+						<AddTask
+							onChange={setTasks}
+							tasks={tasks}
+						/>
 					</div>
 				</div>
 				<div className="tasks">
-					{tasks.length > 1 ? (
+					{Array.isArray(tasks) ? (
 						tasks.map((task) => (
 							<Task
 								key={task.id}
@@ -53,6 +59,6 @@ function TasksTable(): JSX.Element {
 			</div>
 		</>
 	);
-}
+};
 
 export default TasksTable;
