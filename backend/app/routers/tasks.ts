@@ -1,4 +1,4 @@
-import { Router } from 'express';
+;import { Router } from 'express';
 import { Request, Response } from 'express';
 
 import TasksService from '../services/tasks';
@@ -13,6 +13,7 @@ class TasksRouter {
   }
   private initializeRoutes() {
     this.router.get("/", this.getAllTasks);
+    this.router.get("/last", this.getLastTask);
     this.router.get("/:id/state", this.getState);
     this.router.get("/:id/text", this.getText);
     this.router.post("/create", this.createTask);
@@ -128,6 +129,22 @@ class TasksRouter {
       return res.status(200).json({
         message: "Task deleted successfully",
         content: deletedTask
+      });
+    }
+    catch (e) {
+      console.error(e);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+  private getLastTask = async (req: Request, res: Response) => {
+    try {
+      const task = await TasksService.getLast();
+      if (!task) {
+        return res.status(404).json({ message: "No tasks found" });
+      }
+      return res.status(200).json({
+        message: "Last task retrieved successfully",
+        content: task
       });
     }
     catch (e) {

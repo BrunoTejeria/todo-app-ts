@@ -16,6 +16,17 @@ class TasksService {
     }
   }
 
+  static async getLast(): Promise<Tasks | null> {
+    try {
+      const result = await sql<Tasks>`SELECT * FROM tasks ORDER BY createdat DESC LIMIT 1`;
+      return result.rows[0];
+    }
+    catch (e) {
+      console.error(e);
+      return null;
+    }
+  }
+
   static async getState(id: string): Promise<Tasks | null> {
     try {
       const result = await sql<Tasks>`SELECT status FROM tasks WHERE id = ${id} LIMIT 1`;

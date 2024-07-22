@@ -4,7 +4,7 @@ import fs from "fs";
 import cors from "cors";
 
 // middlewares and routers imports
-import logRequest from "./middlewares/logRequest";
+import { logRequestInConsole } from "./middlewares/logRequest";
 import TasksRouter from "./routers/tasks" ;
 
 dotenv.config({path: ".env"});
@@ -19,7 +19,7 @@ const app = express();
 
 // middlewares
 app.use(cors());
-app.use(logRequest);
+app.use(logRequestInConsole);
 
 
 // routers
