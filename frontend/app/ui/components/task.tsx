@@ -94,7 +94,7 @@ export default function Task({
 				</div>
 				<div className="min-h-16 min-w-12 flex justify-center items-center border-gray-300 border-solid border-2 border-x-0">
 					<Link
-						href={`/edit/${id}`}
+						href={`/edit?id=${id}`}
 						className=""
 					>
 						<svg

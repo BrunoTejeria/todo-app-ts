@@ -10,7 +10,6 @@ import NoTasks from "./noTasks";
 
 const TasksTable = async () => {
 	const [tasks, setTasks] = useState<TaskType[]>([]);
-	console.log(tasks);
 
 	useEffect(() => {
 		const fetchTasks = async () => {

@@ -4,25 +4,27 @@ import {SetStateAction, Dispatch} from "react";
 import {TaskType} from "@/app/lib/types";
 import dataFetcher from "@lib/data";
 
-const AddTask = async ({
+const AddTask = ({
 	onChange,
 	tasks,
 }: {
 	onChange: Dispatch<SetStateAction<TaskType[]>>;
 	tasks: TaskType[];
 }) => {
-	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
 		const text: string | undefined = formData.get("text")?.toString();
 
 		if (text) {
-			let data = await dataFetcher.createTask(text);
-			if (data) {
-				onChange([...tasks, data]);
-			}
-			return data;
-		} else return;
+			return dataFetcher.createTask(text).then((data) => {
+				if (data) {
+					onChange([data, ...tasks]);
+					return true;
+				}
+				return;
+			});
+		}
 	};
 
 	return (
