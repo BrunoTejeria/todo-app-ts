@@ -1,0 +1,13 @@
+.skeleton {
+  background: linear-gradient(-30deg, #eee, #f9f9f9, #eee);
+  background-size: 200%;
+  animation: skeleton 1s infinite reverse;
+}
+@keyframes skeleton {
+  0% {
+      background-position: -100% 0;
+  }
+  100% {
+      background-position: 100% 0;
+  }
+}
