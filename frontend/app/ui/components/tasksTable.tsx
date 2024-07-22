@@ -23,12 +23,6 @@ const TasksTable = async () => {
 
 		fetchTasks();
 	}, []);
-	useEffect(() => {
-		const handleNewTask = () => {
-			console.log(tasks);
-		};
-		handleNewTask();
-	}, [tasks]);
 
 	return (
 		<>

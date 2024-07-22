@@ -53,6 +53,15 @@ class Data {
 		console.log(task)
     return task.content;
 	}
+
+	public async deleteTask(id: string): Promise<TaskType | null> {
+		const response = await fetch(`${this.tasksUrl}/${id}/delete`, {
+      method: "DELETE",
+      headers: {...this.headers }
+    });
+    const task: TaskResponse = await response.json();
+    return task.content;
+	}
 }
 
 const dataFetcher = new Data(process.env.BACKEND_URL);

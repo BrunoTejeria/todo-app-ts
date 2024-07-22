@@ -68,8 +68,22 @@ export default function Task({
 		return text;
 	};
 
+	const [isDeleted, setIsDeleted] = useState("block");
+	function deleteTask(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+		return dataFetcher.deleteTask(id).then((task) => {
+			if (task) {
+				setIsDeleted("none");
+				return task;
+			}
+			return null;
+		});
+	}
+
 	return (
-		<div className="">
+		<div
+			className=""
+			style={{display: isDeleted}}
+		>
 			<div className="flex w-full">
 				<div className="min-h-16 min-w-16 bg-gray-200 border-gray-300 border-solid border-2">
 					{
@@ -109,7 +123,7 @@ export default function Task({
 					</Link>
 				</div>
 				<div className="min-h-16 min-w-12 flex justify-center items-center border-gray-300 border-solid border-2 border-l-0">
-					<Link href={`/edit/`}>
+					<button onClick={deleteTask}>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 24 24"
@@ -122,7 +136,7 @@ export default function Task({
 								clip-rule="evenodd"
 							/>
 						</svg>
-					</Link>
+					</button>
 				</div>
 			</div>
 		</div>
